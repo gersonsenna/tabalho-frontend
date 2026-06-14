@@ -1,24 +1,51 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router";
+import { PetContext } from "../contexts/PetContext";
 
 function Navbar() {
+  const { estaLogado, setEstaLogado } = useContext(PetContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setEstaLogado(false);
+    alert("👋 Você saiu da sua conta.");
+    navigate("/");
+  };
+
   return (
-    <nav className="bg-white p-4 shadow-sm flex justify-between items-center border-b border-slate-100">
-      <Link to="/" className="text-xl font-black text-orange-600">
+    <nav className="flex justify-between items-center p-4 bg-white shadow-sm border-b border-gray-100">
+      <div className="text-orange-600 font-bold text-xl flex items-center gap-1">
         🐾 PetAdote
-      </Link>
-
-      <div className="flex gap-6 font-bold text-slate-600">
-        <Link to="/" className="hover:text-orange-600 transition">
-          Início
-        </Link>
-
-        <Link to="/pets" className="hover:text-orange-600 transition">
-          Listagem
-        </Link>
-
-        <Link to="/pets/novo" className="hover:text-orange-600 transition">
-          Cadastro
-        </Link>
+      </div>
+      
+      <div className="flex gap-6 font-medium text-gray-700 items-center">
+        <Link to="/" className="hover:text-orange-600 transition">Início</Link>
+        <Link to="/pets" className="hover:text-orange-600 transition">Adoção</Link>
+        
+        {/* 🟠 A ABA CADASTRO SÓ APARECE SE ESTIVER LOGADO */}
+        {estaLogado && (
+        <>
+        <Link to="/pets/novo" className="hover:text-orange-600 transition">Cadastro</Link>
+        <Link to="/pets/gerenciar" className="hover:text-orange-600 transition">Gerenciar</Link>
+        </>
+        )}
+        
+        {/* SE ESTIVER LOGADO MOSTRA "SAIR", SE NÃO MOSTRA "LOGIN" */}
+        {estaLogado ? (
+          <button 
+            onClick={handleLogout}
+            className="bg-gray-200 text-gray-700 font-bold py-1.5 px-4 rounded hover:bg-gray-300 transition text-sm"
+          >
+            Sair
+          </button>
+        ) : (
+          <Link 
+            to="/login" 
+            className="bg-orange-600 text-white font-bold py-1.5 px-4 rounded hover:bg-orange-700 transition shadow-sm text-sm"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </nav>
   );

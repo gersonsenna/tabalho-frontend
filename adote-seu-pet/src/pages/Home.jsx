@@ -8,7 +8,7 @@ function Home() {
       <h1>🐾 Adote seu Pet</h1>
       <p>Encontre o companheiro ideal para sua casa!</p>
       <button onClick={() => navigate("/pets")}>
-        Ver Pets Disponíveis
+        Ver Pets para Adoção
       </button>
     </div>
   );
