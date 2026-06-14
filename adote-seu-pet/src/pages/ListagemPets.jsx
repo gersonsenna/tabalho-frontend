@@ -5,16 +5,43 @@ function ListagemPets() {
   const { petsGlobal } = useContext(PetContext);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>🐾 Pets Disponíveis para Adoção</h2>
+    <div className="max-w-6xl mx-auto mt-6">
+      <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
+        🐾 Pets Disponíveis para Adoção
+      </h2>
+
       {petsGlobal.length === 0 ? (
-        <p>Nenhum pet cadastrado no momento.</p>
+        <div className="text-center text-gray-500 mt-10">
+          <p className="text-xl font-medium">Nenhum pet cadastrado no momento.</p>
+          <p className="text-sm mt-1">Vá até a tela de cadastro para adicionar um companheiro!</p>
+        </div>
       ) : (
-        petsGlobal.map((pet, index) => (
-          <div key={index} style={{ border: "1px solid #ccc", padding: "10px", margin: "10px 0" }}>
-            <h3>{pet.nome}</h3>
-          </div>
-        ))
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {petsGlobal.map((pet, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+              {pet.imagem ? (
+                <img
+                  src={pet.imagem}
+                  alt={pet.nome}
+                  className="w-full h-48 object-cover"
+                />
+              ) : (
+                <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400">
+                  <span className="text-4xl">🐶</span>
+                </div>
+              )}
+              
+              <div className="p-4">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{pet.nome}</h3>
+                <div className="space-y-1 text-sm text-gray-600">
+                  <p><span className="font-semibold">Raça:</span> {pet.raca}</p>
+                  <p><span className="font-semibold">Idade:</span> {pet.idade}</p>
+                  <p><span className="font-semibold">Porte:</span> {pet.porte}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
