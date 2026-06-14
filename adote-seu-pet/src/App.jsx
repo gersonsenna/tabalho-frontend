@@ -1,15 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ListagemPets from "./pages/ListagemPets";
 import CadastroPet from "./pages/CadastroPet";
+import { PetProvider } from "./contexts/PetContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      {/* A Navbar fica fixa no topo de todas as páginas */}
+    <PetProvider>
       <Navbar />
-
       <main className="p-6">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -17,7 +16,7 @@ function App() {
           <Route path="/pets/novo" element={<CadastroPet />} />
         </Routes>
       </main>
-    </BrowserRouter>
+    </PetProvider>
   );
 }
 
