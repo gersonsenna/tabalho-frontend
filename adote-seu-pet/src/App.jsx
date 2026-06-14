@@ -1,10 +1,24 @@
+import { BrowserRouter, Routes, Route } from "react-router";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import ListagemPets from "./pages/ListagemPets";
+import CadastroPet from "./pages/CadastroPet";
+
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-orange-50">
-      <h1 className="text-4xl font-bold text-orange-600 mb-2">🐾 Adote seu Pet</h1>
-      <p className="text-slate-600 text-lg">Ambiente configurado com sucesso e pronto para desenvolvimento!</p>
-    </div>
-  )
+    <BrowserRouter>
+      {/* A Navbar fica fixa no topo de todas as páginas */}
+      <Navbar />
+
+      <main className="p-6">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/pets" element={<ListagemPets />} />
+          <Route path="/pets/novo" element={<CadastroPet />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
