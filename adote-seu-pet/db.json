@@ -1,0 +1,20 @@
+{
+  "pets": [
+    {
+      "id": "1",
+      "nome": "Pipoca",
+      "tipo": "Cachorro",
+      "idade": "2 anos",
+      "descricao": "Muito dócil, brincalhão e adora crianças. Já está vacinado e castrado.",
+      "imagem": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500&auto=format&fit=crop"
+    },
+    {
+      "id": "2",
+      "nome": "Mingau",
+      "tipo": "Gato",
+      "idade": "6 meses",
+      "descricao": "Calmo, carinhoso e adora dormir no colo. Perfeito para apartamento.",
+      "imagem": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop"
+    }
+  ]
+}
