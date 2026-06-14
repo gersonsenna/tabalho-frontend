@@ -4,7 +4,8 @@ import { useForm } from "react-hook-form";
 import { PetContext } from "../contexts/PetContext";
 
 function CadastroPet() {
-  const { setPetsGlobal } = useContext(PetContext);
+  // ⚙️ AJUSTE: Importando a função da API que estava faltando aqui dentro!
+  const { adicionarPetAPI } = useContext(PetContext);
   const navigate = useNavigate();
 
   const {
@@ -23,10 +24,16 @@ function CadastroPet() {
     },
   });
 
-  const onSubmit = (data) => {
-    setPetsGlobal((prevPets) => [...prevPets, data]);
-    alert("🐾 Pet cadastrado com sucesso!");
-    navigate("/pets");
+  const onSubmit = async (data) => {
+    // Dispara o método HTTP POST configurado no contexto
+    const sucesso = await adicionarPetAPI(data);
+    
+    if (sucesso) {
+      alert("🐾 Pet cadastrado com sucesso na API REST!");
+      navigate("/pets");
+    } else {
+      alert("❌ Ocorreu um erro ao salvar o pet.");
+    }
   };
 
   return (
@@ -114,13 +121,14 @@ function CadastroPet() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Descrição *</label>
+          {/* 🔍 AJUSTE: Removido o asterisco do campo Opcional */}
+          <label className="block text-gray-700 font-medium mb-1">Descrição</label>
+          {/* 🔍 AJUSTE: Removido o required para não travar o envio em branco */}
           <textarea
             {...register("descricao", { 
-              required: "A descrição é obrigatória",
               maxLength: { value: 200, message: "Máximo de 200 caracteres" }
             })}
-            placeholder="Conte um pouco sobre o pet..."
+            placeholder="Conte um pouco sobre o pet... (Opcional)"
             rows="3"
             className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
               errors.descricao ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
@@ -140,4 +148,5 @@ function CadastroPet() {
   );
 }
 
+    // Exportação padrão limpa para funcionar com as suas rotas atuais
 export default CadastroPet;
