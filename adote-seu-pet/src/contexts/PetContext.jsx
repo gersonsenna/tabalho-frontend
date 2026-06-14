@@ -1,9 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const PetContext = createContext();
 
 function PetProvider({ children }) {
-  const [petsGlobal, setPetsGlobal] = useState([]);
+  const [petsGlobal, setPetsGlobal] = useState(() => {
+    const savedPets = localStorage.getItem("pets");
+    return savedPets ? JSON.parse(savedPets) : [];
+  });
+  
+  useEffect(() => {
+    localStorage.setItem("pets", JSON.stringify(petsGlobal));
+  }, [petsGlobal]);
 
   return (
     <PetContext.Provider value={{ petsGlobal, setPetsGlobal }}>
@@ -13,3 +20,4 @@ function PetProvider({ children }) {
 }
 
 export { PetProvider, PetContext };
+
