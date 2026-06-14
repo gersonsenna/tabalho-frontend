@@ -7,13 +7,19 @@ function PetProvider({ children }) {
     const savedPets = localStorage.getItem("pets");
     return savedPets ? JSON.parse(savedPets) : [];
   });
-  
+
+  const [estaLogado, setEstaLogado] = useState(() => {
+    const loginSalvo = localStorage.getItem("usuario_logado");
+    return loginSalvo === "true";
+  });
+
   useEffect(() => {
     localStorage.setItem("pets", JSON.stringify(petsGlobal));
-  }, [petsGlobal]);
+    localStorage.setItem("usuario_logado", estaLogado.toString());
+  }, [petsGlobal, estaLogado]);
 
   return (
-    <PetContext.Provider value={{ petsGlobal, setPetsGlobal }}>
+    <PetContext.Provider value={{ petsGlobal, setPetsGlobal, estaLogado, setEstaLogado }}>
       {children}
     </PetContext.Provider>
   );

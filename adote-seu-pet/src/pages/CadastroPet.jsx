@@ -1,36 +1,30 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
 import { PetContext } from "../contexts/PetContext";
 
 function CadastroPet() {
   const { setPetsGlobal } = useContext(PetContext);
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    nome: "",
-    idade: "",
-    raca: "",
-    porte: "Pequeno",
-    imagem: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      nome: "",
+      tipo: "Cão",
+      raca: "",
+      idade: "",
+      porte: "Médio",
+      imagem: "",
+      descricao: "",
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!formData.nome || !formData.idade || !formData.raca) {
-      alert("Por favor, preencha todos os campos obrigatórios!");
-      return;
-    }
-
-    setPetsGlobal((prevPets) => [...prevPets, formData]);
+  const onSubmit = (data) => {
+    setPetsGlobal((prevPets) => [...prevPets, data]);
     alert("🐾 Pet cadastrado com sucesso!");
     navigate("/pets");
   };
@@ -40,73 +34,105 @@ function CadastroPet() {
       <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
         📝 Cadastrar Novo Pet
       </h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block text-gray-700 font-medium mb-1">Nome do Pet *</label>
           <input
             type="text"
-            name="nome"
-            value={formData.nome}
-            onChange={handleChange}
+            {...register("nome", { required: "O nome do pet é obrigatório" })}
             placeholder="Ex: Thor, Mel"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+              errors.nome ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
+            }`}
           />
+          {errors.nome && <p className="text-red-500 text-xs mt-1">{errors.nome.message}</p>}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Tipo *</label>
+            <select
+              {...register("tipo")}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="Cão">Cão</option>
+              <option value="Gato">Gato</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Porte *</label>
+            <select
+              {...register("porte")}
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="Pequeno">Pequeno</option>
+              <option value="Médio">Médio</option>
+              <option value="Grande">Grande</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Raça *</label>
+            <input
+              type="text"
+              {...register("raca", { required: "A raça é obrigatória" })}
+              placeholder="Ex: Poodle, Vira-lata"
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+                errors.raca ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
+              }`}
+            />
+            {errors.raca && <p className="text-red-500 text-xs mt-1">{errors.raca.message}</p>}
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1">Idade *</label>
+            <input
+              type="text"
+              {...register("idade", { required: "A idade é obrigatória" })}
+              placeholder="Ex: 2 anos"
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+                errors.idade ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
+              }`}
+            />
+            {errors.idade && <p className="text-red-500 text-xs mt-1">{errors.idade.message}</p>}
+          </div>
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Idade *</label>
+          <label className="block text-gray-700 font-medium mb-1">URL da Imagem</label>
           <input
             type="text"
-            name="idade"
-            value={formData.idade}
-            onChange={handleChange}
-            placeholder="Ex: 2 anos, 5 meses"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Raça *</label>
-          <input
-            type="text"
-            name="raca"
-            value={formData.raca}
-            onChange={handleChange}
-            placeholder="Ex: Poodle, Vira-lata"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Porte</label>
-          <select
-            name="porte"
-            value={formData.porte}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="Pequeno">Pequeno</option>
-            <option value="Médio">Médio</option>
-            <option value="Grande">Grande</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Link da Imagem (URL)</label>
-          <input
-            type="text"
-            name="imagem"
-            value={formData.imagem}
-            onChange={handleChange}
+            {...register("imagem")}
             placeholder="https://linkdafoto.com/imagem.jpg"
-            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
+        </div>
+
+        <div>
+          {/* REMOVIDO O ASTERISCO DO LABEL */}
+          <label className="block text-gray-700 font-medium mb-1">Descrição</label>
+          <textarea
+            {/* AGORA APENAS O LIMITE DE CARACTERES É CHECADO, SEM REQUERER O CAMPO */}
+            {...register("descricao", { 
+              maxLength: { value: 200, message: "Máximo de 200 caracteres" }
+            })}
+            placeholder="Conte um pouco sobre o pet... (Opcional)"
+            rows="3"
+            className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
+              errors.descricao ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
+            }`}
+          />
+          {errors.descricao && <p className="text-red-500 text-xs mt-1">{errors.descricao.message}</p>}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+          className="w-full bg-orange-600 text-white font-bold py-2 px-4 rounded hover:bg-orange-700 transition duration-200"
         >
           Salvar Pet
         </button>
