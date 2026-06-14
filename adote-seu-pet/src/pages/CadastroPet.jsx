@@ -1,24 +1,31 @@
-import { useNavigate } from "react-router";
+import { useState, useContext } from "react";
+import { PetContext } from "../contexts/PetContext";
 
 function CadastroPet() {
-  const navigate = useNavigate();
+  const { setPetsGlobal } = useContext(PetContext);
+  const [nome, setNome] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!nome) return;
+
+    setPetsGlobal((prev) => [...prev, { nome }]);
+    setNome("");
+    alert("Pet cadastrado com sucesso!");
+  };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold text-slate-800 mb-2">Cadastro de Pets</h1>
-      <p className="text-slate-500 mb-6">Esta tela receberá o formulário do professor na Issue 5.</p>
-      
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 mb-4 text-center text-slate-400">
-        Área reservada para o formulário de cadastro.
-      </div>
-
-      {/* Botão de Voltar para a Listagem no padrão do link "Cancelar" do seu professor */}
-      <button 
-        onClick={() => navigate("/pets")}
-        className="text-slate-500 hover:underline font-semibold"
-      >
-        Cancelar e Voltar
-      </button>
+    <div style={{ padding: "20px" }}>
+      <h2>📝 Cadastrar Novo Pet</h2>
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="text" 
+          placeholder="Nome do pet" 
+          value={nome} 
+          onChange={(e) => setNome(e.target.value)} 
+        />
+        <button type="submit">Salvar</button>
+      </form>
     </div>
   );
 }
