@@ -114,14 +114,13 @@ function CadastroPet() {
         </div>
 
         <div>
-          {/* REMOVIDO O ASTERISCO DO LABEL */}
-          <label className="block text-gray-700 font-medium mb-1">Descrição</label>
+          <label className="block text-gray-700 font-medium mb-1">Descrição *</label>
           <textarea
-            {/* AGORA APENAS O LIMITE DE CARACTERES É CHECADO, SEM REQUERER O CAMPO */}
             {...register("descricao", { 
+              required: "A descrição é obrigatória",
               maxLength: { value: 200, message: "Máximo de 200 caracteres" }
             })}
-            placeholder="Conte um pouco sobre o pet... (Opcional)"
+            placeholder="Conte um pouco sobre o pet..."
             rows="3"
             className={`w-full p-2 border rounded focus:outline-none focus:ring-2 ${
               errors.descricao ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-orange-500"
