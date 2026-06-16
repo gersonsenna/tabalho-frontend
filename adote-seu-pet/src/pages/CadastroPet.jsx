@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { PetContext } from "../contexts/PetContext";
 
 function CadastroPet() {
-  // ⚙️ AJUSTE: Importando a função da API que estava faltando aqui dentro!
+  // Puxa com sucesso a função HTTP POST mapeada no estado global
   const { adicionarPetAPI } = useContext(PetContext);
   const navigate = useNavigate();
 
@@ -25,12 +25,17 @@ function CadastroPet() {
   });
 
   const onSubmit = async (data) => {
-    // Dispara o método HTTP POST configurado no contexto
+    // 🐾 Se o campo de imagem estiver em branco, injeta uma foto padrão para não quebrar o layout do grid
+    if (!data.imagem || data.imagem.trim() === "") {
+      data.imagem = "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&auto=format&fit=crop";
+    }
+
+    // Dispara o método HTTP POST configurado no contexto para salvar no db.json
     const sucesso = await adicionarPetAPI(data);
     
     if (sucesso) {
       alert("🐾 Pet cadastrado com sucesso na API REST!");
-      navigate("/pets");
+      navigate("/pets"); // Redireciona o usuário de volta para o catálogo completo
     } else {
       alert("❌ Ocorreu um erro ao salvar o pet.");
     }
@@ -43,6 +48,7 @@ function CadastroPet() {
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Campo: Nome */}
         <div>
           <label className="block text-gray-700 font-medium mb-1">Nome do Pet *</label>
           <input
@@ -56,6 +62,7 @@ function CadastroPet() {
           {errors.nome && <p className="text-red-500 text-xs mt-1">{errors.nome.message}</p>}
         </div>
 
+        {/* Linha: Tipo e Porte */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-medium mb-1">Tipo *</label>
@@ -82,6 +89,7 @@ function CadastroPet() {
           </div>
         </div>
 
+        {/* Linha: Raça e Idade */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-medium mb-1">Raça *</label>
@@ -110,6 +118,7 @@ function CadastroPet() {
           </div>
         </div>
 
+        {/* Campo: URL da Imagem */}
         <div>
           <label className="block text-gray-700 font-medium mb-1">URL da Imagem</label>
           <input
@@ -120,10 +129,9 @@ function CadastroPet() {
           />
         </div>
 
+        {/* Campo: Descrição */}
         <div>
-          {/* 🔍 AJUSTE: Removido o asterisco do campo Opcional */}
           <label className="block text-gray-700 font-medium mb-1">Descrição</label>
-          {/* 🔍 AJUSTE: Removido o required para não travar o envio em branco */}
           <textarea
             {...register("descricao", { 
               maxLength: { value: 200, message: "Máximo de 200 caracteres" }
@@ -137,6 +145,7 @@ function CadastroPet() {
           {errors.descricao && <p className="text-red-500 text-xs mt-1">{errors.descricao.message}</p>}
         </div>
 
+        {/* Botão de Envio */}
         <button
           type="submit"
           className="w-full bg-orange-600 text-white font-bold py-2 px-4 rounded hover:bg-orange-700 transition duration-200"
@@ -148,5 +157,4 @@ function CadastroPet() {
   );
 }
 
-    // Exportação padrão limpa para funcionar com as suas rotas atuais
 export default CadastroPet;
