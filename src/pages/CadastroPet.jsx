@@ -34,7 +34,7 @@ function CadastroPet() {
     const sucesso = await adicionarPetAPI(data);
     
     if (sucesso) {
-      alert("🐾 Pet cadastrado com sucesso na API REST!");
+      alert("🐾 Pet cadastrado com sucesso!");
       navigate("/pets"); // Redireciona o usuário de volta para o catálogo completo
     } else {
       alert("❌ Ocorreu um erro ao salvar o pet.");

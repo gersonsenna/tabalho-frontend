@@ -28,7 +28,7 @@ function GerenciarPets() {
     const confirmacao = window.confirm(`Tem certeza que deseja excluir permanentemente o pet "${nome}"?`);
     if (confirmacao) {
       const sucesso = await excluirPetAPI(id);
-      if (sucesso) alert("🗑️ Pet removido da API!");
+      if (sucesso) alert("🗑️ Pet removido");
     }
   };
 
@@ -59,7 +59,7 @@ function GerenciarPets() {
     const sucesso = await atualizarPetAPI(petOriginal.id, dadosAtualizados);
     if (sucesso) {
       setPetEmEdicao(null);
-      alert("📝 Alterações salvas com sucesso via HTTP PUT!");
+      alert("📝 Alterações salvas com sucesso");
     }
   };
 
