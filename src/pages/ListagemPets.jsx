@@ -1,14 +1,14 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router"; // 🎯 Adicionado: Para navegar entre as páginas
 import { PetContext } from "../contexts/PetContext";
 
 function ListagemPets() {
-  const { petsGlobal, setPetsGlobal } = useContext(PetContext);
+  const { petsGlobal } = useContext(PetContext); // 🎯 Tiramos o setPetsGlobal pois não vamos mais deletar nada aqui
+  const navigate = useNavigate(); // 🎯 Inicializa o navegador do React Router
 
-  const handleAdotar = (indexParaRemover) => {
-    const confirmacao = window.confirm("Você tem certeza que deseja adotar este pet?");
-    if (confirmacao) {
-      setPetsGlobal((prevPets) => prevPets.filter((_, index) => index !== indexParaRemover));
-    }
+  // 🎯 CORRIGIDO: Agora a função não deleta o pet, ela te leva ao formulário!
+  const handleAdotar = (petNome) => {
+    navigate("/adotar", { state: { petNome: petNome } });
   };
 
   return (
@@ -51,10 +51,11 @@ function ListagemPets() {
 
               <div className="p-4 pt-0">
                 <button
-                  onClick={() => handleAdotar(index)}
+                  /* 🎯 Passamos o pet.nome para a função de redirecionamento */
+                  onClick={() => handleAdotar(pet.nome)}
                   className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-200 mt-2"
                 >
-                  Adoptar Me! ✨
+                  Adotar Me! ✨
                 </button>
               </div>
             </div>

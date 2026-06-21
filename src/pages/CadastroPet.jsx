@@ -25,7 +25,7 @@ function CadastroPet() {
   });
 
   const onSubmit = async (data) => {
-    // 🐾 Se o campo de imagem estiver em branco, injeta uma foto padrão para não quebrar o layout do grid
+    // 🐾
     if (!data.imagem || data.imagem.trim() === "") {
       data.imagem = "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=500&auto=format&fit=crop";
     }

@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react";
 
-
 const PetContext = createContext();
-function PetProvider({ children }) {
+
+export function PetProvider({ children }) {
   const [petsGlobal, setPetsGlobal] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erroApi, setErroApi] = useState(null);
@@ -25,13 +25,12 @@ function PetProvider({ children }) {
     } catch (erro) {
       console.error("Erro na requisição GET:", erro);
       setErroApi("⚠️ O servidor local está offline. Certifique-se de rodar 'npm run server'.");
-    } finally { // 🎯 CORRIGIDO: Agora com dois "L" para o JavaScript compilar perfeitamente!
+    } finally { 
       setCarregando(false);
     }
   };
 
   useEffect(() => {
-    // Defer the call so setState inside buscarPets does not run synchronously within the effect
     Promise.resolve().then(() => buscarPets());
   }, []);
 
@@ -112,7 +111,7 @@ function PetProvider({ children }) {
         estaLogado,
         setEstaLogado,
         efectuarLogout,
-        adicionarPetAPI, // Agora vai ser exportada sem falhas!
+        adicionarPetAPI, 
         atualizarPetAPI,
         excluirPetAPI,
       }}
@@ -122,6 +121,4 @@ function PetProvider({ children }) {
   );
 }
 
-    
-export { PetProvider, PetContext };
-
+export { PetContext };

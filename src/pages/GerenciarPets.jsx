@@ -70,10 +70,10 @@ function GerenciarPets() {
   return (
     <div className="max-w-5xl mx-auto mt-10 p-4">
       <h2 className="text-3xl font-bold text-gray-800 mb-2 text-center">⚙️ Painel de Gerenciamento</h2>
-      <p className="text-center text-gray-500 mb-8">Conectado diretamente à API REST.</p>
+      <p className="text-center text-gray-500 mb-8"></p>
 
       {petsGlobal.length === 0 ? (
-        <div className="text-center p-8 bg-gray-50 rounded-lg text-gray-500">Nenhum pet encontrado na API.</div>
+        <div className="text-center p-8 bg-gray-50 rounded-lg text-gray-500"></div>
       ) : (
         <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
           <div className="overflow-x-auto">
